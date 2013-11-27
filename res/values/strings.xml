@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Manufacturing</string>
+    <string name="title_section2">Research</string>
+    <string name="title_section3">Contracts</string>
+    <string name="settings_api_keys">APIs</string>
+    <string name="api_settings">APIs</string>
+    
+    <!-- Job Items -->
+	<string name="job_item">job_item</string>
+	<string name="job_time">job_time</string>
+	
+	<!-- Add API -->
+	<string name="api_vCode">VCode:</string>
+	<string name="api_key">KeyID:</string>
+	<string name="api_add_confirm">Add</string>
+	<string name="add_api">Add Api</string>
+</resources>
