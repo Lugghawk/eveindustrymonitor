@@ -19,9 +19,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.acidictadpole.eveindustrymonitor.helper.DBHelper;
-import com.acidictadpole.eveindustrymonitor.helper.EveApiHelper;
 import com.acidictadpole.eveindustrymonitor.persist.EveApi;
-import com.beimin.eveapi.exception.ApiException;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -35,6 +33,10 @@ public class ApiActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.api_settings);
+		refreshView();
+	}
+
+	private void refreshView() {
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getApplicationContext(), android.R.layout.simple_list_item_1);
 		adapter.add(getString(R.string.add_api));
@@ -65,27 +67,10 @@ public class ApiActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		Bundle extras = data.getExtras();
 		switch (requestCode) {
 		case ACTIVITY_ADD:
-			try {
-				Dao<EveApi, Integer> dao = getDBHelper().getApiDao();
-				String vCode = extras.getString(EveApi.V_CODE);
-				Integer keyID = extras.getInt(EveApi.KEY_ID);
-				EveApi newApi;
-				try {
-					newApi = EveApiHelper.createEveApi(keyID, vCode);
-					dao.create(newApi);
-				} catch (ApiException e) {
-					Toast.makeText(this,
-							"Api Adding Failed: " + e.getMessage(),
-							Toast.LENGTH_SHORT).show();
-				}
-
-			} catch (SQLException e) {
-				Log.e(this.getClass().getName(), "DatabaseException");
-				throw new RuntimeException(e);
-
+			if (resultCode == RESULT_OK) {
+				refreshView();
 			}
 		}
 	}
