@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.acidictadpole.eveindustrymonitor.helper.DBHelper;
 import com.acidictadpole.eveindustrymonitor.persist.EveApi;
+import com.acidictadpole.eveindustrymonitor.view.ApiListAdapter;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
@@ -94,8 +95,8 @@ public class ApiActivity extends Activity {
 		@Override
 		public void onListItemClick(ListView l, View v, int position, long id) {
 			Toast toast = Toast.makeText(getActivity().getApplicationContext(),
-					(String) l.getAdapter().getItem(position),
-					Toast.LENGTH_SHORT);
+					String.valueOf(((EveApi) l.getAdapter().getItem(position))
+							.getKeyId()), Toast.LENGTH_SHORT);
 			toast.show();
 			super.onListItemClick(l, v, position, id);
 
@@ -109,38 +110,27 @@ public class ApiActivity extends Activity {
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-					getActivity().getApplicationContext(),
-					android.R.layout.simple_list_item_1);
-
-			for (String apiName : getStoredApiNames()) {
-				adapter.add(apiName);
-			}
+			ApiListAdapter adapter = new ApiListAdapter(getActivity()
+					.getApplicationContext(), getStoredApis());
 			setListAdapter(adapter);
 			return super.onCreateView(inflater, container, savedInstanceState);
 		}
 
-		private ArrayList<String> getStoredApiNames() {
-			ArrayList<String> apiList = new ArrayList<String>();
-
+		private List<EveApi> getStoredApis() {
+			List<EveApi> apis = new ArrayList<EveApi>();
+			Log.i(this.getClass().getName(), "Attempting to get dbhelper");
+			DBHelper dbhelper = getDBHelper();
+			Dao<EveApi, Integer> apiDao;
 			try {
-				Log.i(this.getClass().getName(), "Attempting to get dbhelper");
-				DBHelper dbhelper = getDBHelper();
-				Dao<EveApi, Integer> apiDao = dbhelper.getApiDao();
-				List<EveApi> apis = apiDao.queryForAll();
-				for (EveApi api : apis) {
-					apiList.add(String.valueOf(api.getKeyId()));
-				}
+				apiDao = dbhelper.getApiDao();
+				apis = apiDao.queryForAll();
 			} catch (SQLException e) {
 				Log.e(ApiFragment.class.getName(), "Database exception", e);
-				apiList.clear();
-				apiList.add("DatabaseException");
-				return apiList;
 			} finally {
 				OpenHelperManager.releaseHelper();
 			}
 
-			return apiList;
+			return apis;
 		}
 
 		private DBHelper getDBHelper() {

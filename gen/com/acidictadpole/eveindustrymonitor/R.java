@@ -28,9 +28,7 @@ public final class R {
         public static final int api_confirm=0x7f090004;
         public static final int api_container=0x7f090005;
         public static final int api_edit_list=0x7f090006;
-        public static final int api_key=0x7f09000e;
         public static final int api_keyId=0x7f090002;
-        public static final int api_key_type=0x7f09000f;
         public static final int api_list=0x7f090007;
         public static final int api_settings=0x7f090010;
         public static final int api_vCode=0x7f090003;
@@ -42,6 +40,8 @@ public final class R {
         public static final int job_time=0x7f09000d;
         public static final int pager=0x7f090000;
         public static final int pager_title_strip=0x7f090001;
+        public static final int single_api_key_id=0x7f09000e;
+        public static final int single_api_key_type=0x7f09000f;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
