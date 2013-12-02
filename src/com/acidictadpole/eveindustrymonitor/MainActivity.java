@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.acidictadpole.eveindustrymonitor.view.ContractListAdapter;
 import com.acidictadpole.eveindustrymonitor.view.JobListAdapter;
 
 public class MainActivity extends FragmentActivity {
@@ -66,9 +70,11 @@ public class MainActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			showSettings();
+			// showSettings();
+			break;
 		case R.id.api_settings:
 			showApiSettings();
+			break;
 		default:
 			super.onOptionsItemSelected(item);
 
@@ -101,15 +107,15 @@ public class MainActivity extends FragmentActivity {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-			Fragment fragment = new DummySectionFragment();
-			Bundle args = new Bundle();
-			args.putString(DummySectionFragment.ARG_SECTION_NUMBER,
-					(String) getPageTitle(position));
-
-			fragment.setArguments(args);
+			Fragment fragment = null;
+			switch (position) {
+			case 0:
+			case 1:
+				fragment = new JobSectionFragment();
+				break;
+			case 2:
+				fragment = new ContractSectionFragment();
+			}
 			return fragment;
 		}
 
@@ -133,43 +139,102 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 
+	public static class ContractSectionFragment extends Fragment {
+		public static final String CONTRACT_TYPE = "contract_type";
+		public static final String CONTRACT_STATE = "contract_state";
+
+		private List<HashMap<String, String>> data;
+
+		public ContractSectionFragment() {
+			data = getDummyContracts();
+		}
+
+		// This gets called when this Fragment is moving into adjacency with an
+		// active fragment.
+		// So if the active fragment is two spots away from this one, this is
+		// redrawn as it comes into adjacency.
+		// The result of this is that we want to not generate/retrieve any data
+		// here.
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.contract_fragment,
+					container, false);
+			ListView jobListView = (ListView) rootView
+					.findViewById(R.id.contract_list);
+			ContractListAdapter contractAdapter = new ContractListAdapter(
+					getActivity().getApplicationContext(), data);
+			jobListView.setAdapter(contractAdapter);
+			return rootView;
+		}
+
+		private List<HashMap<String, String>> getDummyContracts() {
+			List<HashMap<String, String>> dummyData = new ArrayList<HashMap<String, String>>();
+			String[] states = new String[] { "In Progress", "Outstanding",
+					"Completed", "Failed" };
+			String[] types = new String[] { "Courier", "Auction",
+					"Item Exchange" };
+
+			for (int i = 0; i < 10; i++) {
+				String state = states[(int) (Math.random() * (states.length))];
+				String type = types[(int) (Math.random() * (types.length))];
+				HashMap<String, String> contract = new HashMap<String, String>();
+				contract.put(CONTRACT_TYPE, type);
+				contract.put(CONTRACT_STATE, state);
+				dummyData.add(contract);
+			}
+			return dummyData;
+		}
+	}
+
 	/**
 	 * A dummy fragment representing a section of the app, but that simply
 	 * displays dummy text.
 	 */
-	public static class DummySectionFragment extends Fragment {
-		/**
-		 * The fragment argument representing the section number for this
-		 * fragment.
-		 */
-		public static final String ARG_SECTION_NUMBER = "section_number";
+	public static class JobSectionFragment extends Fragment {
 		public static final String JOB_NAME = "job_name";
 		public static final String JOB_TIME = "job_time";
 
-		public DummySectionFragment() {
+		private List<HashMap<String, String>> data;
+
+		public JobSectionFragment() {
+			data = getDummyData();
+		}
+
+		private List<HashMap<String, String>> getDummyData() {
+			long startTime = System.nanoTime();
+			List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
+			for (int i = 0; i < 10; i++) {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put(JOB_NAME, "Item " + i);
+				DateTime dateNow = new DateTime();
+				if ((((int) Math.random()) % 2) == 0) {
+					Log.i("Test", "Adding Hours");
+					dateNow = dateNow.plusHours((int) (Math.random() * 5));
+				} else {
+					Log.i("Test", "Minusing Hours");
+					dateNow = dateNow.minusHours((int) (Math.random() * 5));
+				}
+
+				map.put(JOB_TIME, dateNow.toString());
+				items.add(map);
+			}
+			long endTime = System.nanoTime();
+			Log.i(this.getClass().getName(), "dummyData took "
+					+ (endTime - startTime) + " nanoseconds");
+			return items;
 		}
 
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_main_dummy,
-					container, false);
+			View rootView = inflater.inflate(R.layout.job_fragment, container,
+					false);
 			ListView jobListView = (ListView) rootView
 					.findViewById(R.id.job_list);
-			String[] from = new String[] { "item_name", "item_time" };
-			int[] to = new int[] { R.id.job_item, R.id.job_time };
-			List<HashMap<String, String>> items = new ArrayList<HashMap<String, String>>();
-			for (int i = 0; i < 10; i++) {
-				HashMap<String, String> map = new HashMap<String, String>();
-				map.put(JOB_NAME, "Item " + i);
-				map.put(JOB_TIME, "Time for Item" + i);
-				items.add(map);
-			}
-			// SimpleAdapter listAdapter = new SimpleAdapter(getActivity()
-			// .getApplicationContext(), items, R.layout.job_item, from,
-			// to);
+
 			JobListAdapter jobAdapter = new JobListAdapter(getActivity()
-					.getApplicationContext(), items);
+					.getApplicationContext(), data);
 			jobListView.setAdapter(jobAdapter);
 
 			return rootView;

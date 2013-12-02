@@ -24,17 +24,22 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f09000c;
+        public static final int action_settings=0x7f090011;
         public static final int api_confirm=0x7f090004;
         public static final int api_container=0x7f090005;
         public static final int api_edit_list=0x7f090006;
+        public static final int api_key=0x7f09000e;
         public static final int api_keyId=0x7f090002;
+        public static final int api_key_type=0x7f09000f;
         public static final int api_list=0x7f090007;
-        public static final int api_settings=0x7f09000b;
+        public static final int api_settings=0x7f090010;
         public static final int api_vCode=0x7f090003;
-        public static final int job_item=0x7f090009;
-        public static final int job_list=0x7f090008;
-        public static final int job_time=0x7f09000a;
+        public static final int contract_list=0x7f090008;
+        public static final int contract_state=0x7f09000a;
+        public static final int contract_type=0x7f090009;
+        public static final int job_item=0x7f09000c;
+        public static final int job_list=0x7f09000b;
+        public static final int job_time=0x7f09000d;
         public static final int pager=0x7f090000;
         public static final int pager_title_strip=0x7f090001;
     }
@@ -42,26 +47,39 @@ public final class R {
         public static final int activity_main=0x7f030000;
         public static final int api_add=0x7f030001;
         public static final int api_settings=0x7f030002;
-        public static final int fragment_main_dummy=0x7f030003;
-        public static final int job_item=0x7f030004;
+        public static final int contract_fragment=0x7f030003;
+        public static final int contract_item=0x7f030004;
+        public static final int job_fragment=0x7f030005;
+        public static final int job_item=0x7f030006;
+        public static final int single_api=0x7f030007;
     }
     public static final class menu {
         public static final int main=0x7f080000;
     }
     public static final class string {
+        /**  Main UI 
+         */
         public static final int action_settings=0x7f060000;
-        public static final int add_api=0x7f06000b;
-        public static final int api_add_confirm=0x7f06000a;
-        public static final int api_key=0x7f060009;
+        public static final int add_api=0x7f06000f;
+        public static final int api_add_confirm=0x7f06000e;
+        public static final int api_key_id=0x7f06000d;
         public static final int api_settings=0x7f060005;
         /**  Add API 
          */
-        public static final int api_vCode=0x7f060008;
+        public static final int api_vCode=0x7f06000c;
+        public static final int contract_state=0x7f06000b;
+        /**  Contract Items 
+         */
+        public static final int contract_type=0x7f06000a;
         /**  Job Items 
          */
-        public static final int job_item=0x7f060006;
-        public static final int job_time=0x7f060007;
+        public static final int job_item=0x7f060008;
+        public static final int job_time=0x7f060009;
         public static final int settings_api_keys=0x7f060004;
+        /**  Single API 
+         */
+        public static final int single_api_key=0x7f060006;
+        public static final int single_api_type=0x7f060007;
         public static final int title_section1=0x7f060001;
         public static final int title_section2=0x7f060002;
         public static final int title_section3=0x7f060003;

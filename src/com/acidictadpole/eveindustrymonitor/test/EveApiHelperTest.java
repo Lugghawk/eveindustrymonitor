@@ -1,8 +1,8 @@
 package com.acidictadpole.eveindustrymonitor.test;
 
-import org.junit.Test;
-
 import junit.framework.TestCase;
+
+import org.junit.Test;
 
 import com.acidictadpole.eveindustrymonitor.helper.EveApiHelper;
 import com.beimin.eveapi.account.apikeyinfo.ApiKeyInfoResponse;

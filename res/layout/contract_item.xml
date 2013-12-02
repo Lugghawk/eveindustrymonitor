@@ -11,20 +11,20 @@
     android:background="@android:color/darker_gray"/>
     
     <TextView
-        android:id="@+id/job_item"
+        android:id="@+id/contract_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"
-        android:text="@string/job_item"
+        android:text="@string/contract_type"
         android:textSize="30sp"
         android:textStyle="bold"
         android:typeface="normal" />
 
     <TextView
-        android:id="@+id/job_time"
+        android:id="@+id/contract_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/job_time"
+        android:text="@string/contract_state"
         android:textSize="15sp"
         android:textStyle="bold"
         android:typeface="normal" />

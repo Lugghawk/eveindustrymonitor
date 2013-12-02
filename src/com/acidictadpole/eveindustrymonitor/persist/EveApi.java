@@ -20,6 +20,14 @@ public class EveApi {
 	@DatabaseField
 	KeyType apiKeyType;
 
+	public void setKeyType(KeyType type) {
+		this.apiKeyType = type;
+	}
+
+	public KeyType getKeyType() {
+		return this.apiKeyType;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -45,6 +53,8 @@ public class EveApi {
 		builder.append(keyId);
 		builder.append(", vCode=");
 		builder.append(vCode);
+		builder.append(", apiKeyType=");
+		builder.append(apiKeyType);
 		builder.append("]");
 		return builder.toString();
 	}
