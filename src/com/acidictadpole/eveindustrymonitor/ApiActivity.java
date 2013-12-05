@@ -76,13 +76,6 @@ public class ApiActivity extends Activity {
 		}
 	}
 
-	private DBHelper getDBHelper() {
-		if (dbHelper == null) {
-			dbHelper = OpenHelperManager.getHelper(this, DBHelper.class);
-		}
-		return dbHelper;
-	}
-
 	public static class ApiFragment extends ListFragment {
 		DBHelper dbHelper;
 
